@@ -1,0 +1,26 @@
+class Solution {
+    public static  TreeNode constructBST(int start, ArrayList<Integer> list,int end)
+    {
+
+        if(start>end)
+        {
+            return null;
+        }
+        int mid=(start+end+1)/2;
+        TreeNode root = new TreeNode(list.get(mid));
+        root.left=constructBST(start,list,mid-1);
+        root.right=constructBST(mid+1,list,end);
+        return root;
+    }
+    public TreeNode sortedListToBST(ListNode head) {
+
+        ArrayList<Integer> list =new  ArrayList<Integer>();
+        while(head!=null)
+        {
+            list.add(head.val);
+            head=head.next;
+        }
+        return constructBST(0,list,list.size()-1);
+        
+    }
+}
