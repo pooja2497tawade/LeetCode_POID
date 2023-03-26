@@ -1,0 +1,53 @@
+class Solution {
+    Map<Integer,List<Integer>> map = new HashMap<>();
+    Set<Integer> vis=new HashSet<>();
+    long ans=0;
+    public  void dfs(int currInd)
+    {
+        vis.add(currInd);
+        ans++;
+        List<Integer> neig=map.get(currInd);
+
+        for(int i=0;i<neig.size();i++)
+        {
+            if(vis.contains(neig.get(i)))
+            {
+                continue;
+            }
+            dfs(neig.get(i));
+        }
+    }
+    public long countPairs(int n, int[][] edges) {
+
+        
+        for(int i=0;i<n;i++)
+        {
+            map.put(i,new ArrayList<>());
+        }
+        for(int[] i:edges)
+        {
+            int s1=i[0];
+            int s2=i[1];
+            List<Integer> list = map.get(s1);
+            list.add(s2);
+            map.put(s1,list);
+            list=map.get(s2);
+            list.add(s1);
+            map.put(s2,list);
+        }
+        long totalPair=0;
+       
+      
+        for(int j=0;j<n;j++)
+        {
+            if(!vis.contains(j))
+            {
+                ans=0;
+                dfs(j);
+                totalPair += ans * (n-ans);
+            }
+        }
+        return totalPair/2;
+        
+    }
+}
