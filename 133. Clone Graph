@@ -1,0 +1,48 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+class Solution {
+
+        Map<Node, Node> map = new HashMap();//first node is origin graph node and second node clone node these map for check visted or not
+
+        public Node cloneGraph(Node node) 
+        {
+            //if node is null then return null
+            if (node == null)
+                return null;
+            //if map contains node that means we clone that node and just return node
+            if (map.containsKey(node))
+            {
+                return map.get(node);
+            } 
+            //if map not conatin the node that means we not clone the node we created the     node object and the origin node val    
+            Node root = new Node(node.val);
+            //add the origin node and clone node into  the map
+            map.put(node, root);
+            //we traversing the adj neighbors of origin node 
+            for (Node ng : node.neighbors)
+            {
+                 //adding the origin graph neighbors node to clone graph 
+                root.neighbors.add(cloneGraph(ng));
+            }
+            //return the clone copy graph
+            return root;
+        }
+}
